@@ -1,21 +1,15 @@
 package com.product.data.publisher.configuration;
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Configurable;
+import com.product.data.publisher.connector.StreamConnector;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-@Data
-@Builder
 @Configuration
 public class ApplicationConfig {
+    StreamConnector streamConnector;
 
-
-    private String applicationId;
-    private String bootstrapServers;
-
-    //Topic Config
-    private String customerDetailsTopic;
-    private String balanceDetailsTopic;
-    private String customerBalanceDetailsTopic;
+    @Autowired
+    public ApplicationConfig(KafkaConfig kafkaConfig) {
+        this.streamConnector = new StreamConnector(kafkaConfig);
+    }
 }

@@ -1,18 +1,20 @@
 package com.product.data.publisher.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.io.Serializable;
 
-
+@Builder
+@AllArgsConstructor
 public class CustomerDetails implements Serializable {
-
+    @JsonProperty("customerId")
     private String customerId;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
+    @JsonProperty("accountId")
     private String accountId;
 
     public String getCustomerId() {

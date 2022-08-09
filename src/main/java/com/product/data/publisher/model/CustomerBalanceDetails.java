@@ -1,18 +1,19 @@
 package com.product.data.publisher.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.io.Serializable;
 
-
+@Builder
 public class CustomerBalanceDetails implements Serializable {
-
+    @JsonProperty("balanceId")
     private String customerId;
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
+    @JsonProperty("accountId")
     private String accountId;
+    @JsonProperty("balance")
     private Float balance;
 
     public CustomerBalanceDetails(String customerId, String phoneNumber, String accountId, Float balance) {
