@@ -6,6 +6,7 @@ import com.product.data.publisher.model.CustomerBalanceDetails;
 import com.product.data.publisher.model.CustomerDetails;
 import com.product.data.publisher.serde.KafkaDeserializer;
 import com.product.data.publisher.serde.KafkaSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -13,12 +14,16 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
-import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.JoinWindows;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Produced;
 
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Properties;
 
+@Slf4j
 public class StreamConnector {
 
     private final StreamsBuilder customerDetailsStreamBuilder = new StreamsBuilder();
@@ -27,7 +32,6 @@ public class StreamConnector {
     private Topology balanceTopology;
     private KStream<String, CustomerDetails> customerDetailsStream;
     private KStream<String, BalanceDetails> balanceDetailsStream;
-
     private KStream<String, CustomerBalanceDetails> customerBalanceDetailsKStream;
     private final KafkaConfig kafkaConfig;
 
@@ -81,6 +85,7 @@ public class StreamConnector {
                         new CustomerBalanceDetails(customerDetails.getCustomerId(),customerDetails.getPhoneNumber(),balanceDetails.getAccountId(),balanceDetails.getBalance()),
                         JoinWindows.of(Duration.ofMinutes(5)));
         this.customerBalanceDetailsKStream.filter((k,v)-> Objects.nonNull(v)).
+                peek((k,v)->log.info("customerBalanceDetailsKStream -> key -> {} ,value -> {}",k,v)).
                 to(this.kafkaConfig.getCustomerBalanceDetailsTopic(),
                Produced.with(getKafkaSerdes(String.class),getKafkaSerdes(CustomerBalanceDetails.class)));
     }

@@ -1,12 +1,15 @@
 package com.product.data.publisher.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class BalanceDetails implements Serializable {
     @JsonProperty("balanceId")
     private String balanceId;
@@ -14,9 +17,6 @@ public class BalanceDetails implements Serializable {
     private String accountId;
     @JsonProperty("balance")
     private Float balance;
-
-    public BalanceDetails() {
-    }
 
     public String getBalanceId() {
         return balanceId;

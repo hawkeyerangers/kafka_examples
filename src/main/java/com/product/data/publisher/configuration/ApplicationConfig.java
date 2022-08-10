@@ -12,4 +12,8 @@ public class ApplicationConfig {
     public ApplicationConfig(KafkaConfig kafkaConfig) {
         this.streamConnector = new StreamConnector(kafkaConfig);
     }
+
+    public StreamConnector getStreamConnector() {
+        return streamConnector;
+    }
 }

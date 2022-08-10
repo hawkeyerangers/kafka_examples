@@ -1,11 +1,15 @@
 package com.product.data.publisher.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomerBalanceDetails implements Serializable {
     @JsonProperty("balanceId")
     private String customerId;
@@ -16,12 +20,15 @@ public class CustomerBalanceDetails implements Serializable {
     @JsonProperty("balance")
     private Float balance;
 
+   /* public CustomerBalanceDetails() {
+    }
+
     public CustomerBalanceDetails(String customerId, String phoneNumber, String accountId, Float balance) {
         this.customerId = customerId;
         this.phoneNumber = phoneNumber;
         this.accountId = accountId;
         this.balance = balance;
-    }
+    }*/
 
     public String getCustomerId() {
         return customerId;
